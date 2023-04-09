@@ -1,0 +1,42 @@
+{% extends 'shop/layout.html' %}
+{% load static %}
+{% block title %}
+ ORGANIC | login
+{% endblock title %}
+{% block content %}
+
+
+
+<div class="container mt-4">
+  
+    <div class="row d-flex align-items-center justify-content-center"> 
+      
+        <div class="col-6 p-5 mt-5">
+            <h3 class="mb-3 text-dark">LOGIN</h3>
+          <form action="" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" id="exampleFormControlInput1" placeholder="Enter Username" required>
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Password</label>
+                <input type="password"  name="password" class="form-control" id="exampleFormControlInput1" placeholder="Enter Password"required>
+
+              </div>
+              <button type="submit" class="btn btn-dark w-100 mb-3">LOGIN</button>
+          </form>
+          <p class="text-center">Don't Have Account  ? <a href="signup" class="text-success">signup</a></P> 
+            
+          {% for msg in messages %}
+          <p class="text-danger text-center">{{msg}}</p>
+          {% endfor %}
+
+        </div>    
+        <div class="col-6 p-5">
+           
+             <img src="{% static 'images/login.png' %}" class="img-fluid">
+      
+    </div>
+  </div>
+{% endblock content %}

@@ -1,0 +1,74 @@
+{% extends 'shop/layout.html' %}
+{% load static %}
+{% block title %} ORGANIC | home
+{% endblock title %}
+{% block content %}
+ {% include 'inc/navbar.html' %}
+
+ <div class="container  box">
+    <div class="row">
+        <div class="col-6 ">
+           <img src="{% static 'images/1.png' %}" class="img-fluid">
+        </div>
+        <div class="col-6 p-5">
+           <h4>fresh and organic</h4>
+           <h1 class="mb-2">your daily need <br>  products </h1>
+           <p class ="text-muted">
+            Organic farming is the production of food without the use of synthetic chemicals or genetically modified components. Organic foods are not necessarily completely chemical free, but the pesticide residues will be considerably lower than those found in produce manufactured with synthetic chemicals.
+           </p> 
+           <span class="my-3 px-3 py-2 span">100% organic</span>
+        </div>
+   <div class="container my-5">
+         <h3 class="px-5 text-uppercase text-center" style=" color: #6ab04c;font-weight: 400;">our <span style=" color: #192a56 !important;"> features</span> </h3>
+         <div class="row d-flex  align-items-center justify-content-center mt-5"> 
+          <div class="col-3 card">
+            <img src="{% static 'images/farm.png' %}" class="card-img-top" alt="...">
+            <h5 class="card-title text-capitalize ">fresh and <span style=" color: #6ab04c;" >organic</span></h5>
+            <p class="card-text  text-muted  mb-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+           
+          </div>
+          <div class="col-3 card mx-4">
+            <img src="{% static 'images/bike.png' %}" class="card-img-top" alt="...">
+            <h5 class="card-title text-capitalize ">free <span style=" color: #6ab04c;" >delivery</span></h5>
+            <p class="card-text  text-muted  mb-3">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+           
+          </div>
+          <div class="col-3 card">
+            <img src="{% static 'images/pay.png' %}" class="card-img-top" alt="...">
+            <h5 class="card-title text-capitalize ">easy  <span style=" color: #6ab04c;" >payments</span></h5>
+            <p class="card-text text-muted mb-2">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+           
+          </div>
+          </div>  
+      </div> 
+   </div>
+      
+        <div class="container my-5">
+         <h3 class="px-5 text-uppercase" style=" color: #6ab04c;font-weight: 400;">Latest <span style=" color: #192a56 !important;"> Products</span> </h3>
+         <div class="row d-flex align-items-center justify-content-center"> 
+         {% for p in products  %}
+
+         <div class="col-3 m-2 card product px-4 py-2">
+           <span class="badge bg-success vendor">{{p.vendor}}</span>
+          <a href="{% url 'product_details' p.category.name p.name %}" >
+             {% if p.product_image %}
+             <img src="{{p.product_image.url}}" class="img-fluid">
+             {% endif %}
+             <h6 class="mt-2">{{p.description}}</h6>
+             <span class="text-muted me-5 sprice">Rs.{{p.original_price}}</span>
+             <span class="oprice">Rs.{{p.selling_price}}</span>
+             
+          </a> 
+
+         </div>
+ 
+         {% endfor %}
+      </div>   
+        </div>       
+    </div>    
+ </div>    
+ {% include 'inc/footer.html' %}
+{% endblock content %}
+{% block scripts %}
+
+{% endblock scripts %}

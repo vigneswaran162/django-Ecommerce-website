@@ -1,0 +1,42 @@
+{% extends 'shop/layout.html' %}
+
+{% block title %}
+ ORGANIC | Products
+{% endblock title %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-5 py-3 fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand text-capitalize" href="#"><i class="fa-solid fa-bag-shopping"></i> {{category_name}}  </a>
+    
+  </div>
+</nav>
+
+
+<div class="container box mb-5">
+ 
+    <div class="row d-flex align-items-center justify-content-center"> 
+     
+        {% for p in products  %}
+
+        <div class="col-3 m-2 card product px-4 py-2">
+          <span class="badge  vendor">{{p.vendor}}</span>
+         <a href="{% url 'product_details' category_name p.name %}" >
+            {% if p.product_image %}
+            <img src="{{p.product_image.url}}" class="img-fluid">
+            {% endif %}
+            <h6 class="mt-2">{{p.description}}</h6>
+            <span class="text-muted me-5 sprice">Rs.{{p.original_price}}</span>
+            <span class="oprice">Rs.{{p.selling_price}}</span>
+            
+         </a>   
+        </div>
+
+        {% endfor %}
+      
+    </div>
+  </div>
+  {% include 'inc/footer.html' %}
+{% endblock content %}
+{% block scripts %}
+
+{% endblock scripts %}

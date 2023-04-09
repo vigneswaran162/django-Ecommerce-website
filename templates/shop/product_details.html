@@ -1,0 +1,116 @@
+{% extends 'shop/layout.html' %}
+
+{% block title %}
+ ORGANIC | Products
+{% endblock title %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-5 py-3 fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand text-capitalize" href="#"><i class="fa-solid fa-bag-shopping"></i>  {{products.name}} </a>
+    
+  </div>
+</nav>
+
+<div class="container box">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/" class="text-dark">Home</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'category' products.category.name %}"class="text-dark">category</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{products.name}}</li>
+        </ol>
+      </nav>
+    <div class="row d-flex align-items-center justify-content-center"> 
+      
+        <div class="col-4 p-5">
+           {% if products.trending %}
+           <div  class=" d-flex align-content-end  justify-content-end mb-1"><span class="badge bg-success">best seller</span></div>
+           {% else %}
+           {% endif %}
+            {% if products.product_image %}
+            <img src="{{products.product_image.url}}" class="img-fluid">
+            {% endif %}
+        </div>    
+        <div class="col-8 p-5 details">
+            <h5 class="text-capitalize ptitle" style=" color: #192a56;">{{products.name}}</h5>
+            <h6 class="pdes" style=" color: #eb4d4b ;">{{products.description}}</h6>
+             <p>
+                organic farming, agricultural system that uses ecologically based pest controls and biological fertilizers derived largely from animal and plant wastes and nitrogen-fixing cover crops. Modern organic farming was developed as a response to the environmental harm caused by the use of chemical pesticides and synthetic fertilizers in conventional agriculture, and it has numerous ecological benefits.
+             </p> 
+             <span class="me-5" style="text-decoration: line-through !important;">Rs.{{products.original_price}}</span><span  class="pdes" style=" color: #eb4d4b ;">Rs.{{products.selling_price}}</span> <br>
+             
+             {% if products.quantity > 0 %}
+             <input type="hidden" value="{{products.id}}" id="pid">
+         
+             <div class="input-group mt-2 mb-1" style="width:140px">
+              <button class="input-group-text bg-success text-light" id="minus"><i class="fa fa-minus"></i></button>
+              <input type="text"  maxlength='2' name="qty" id="txtqty" value="1" class="form-control text-center">
+              <button class="input-group-text bg-success text-light" id="plus" ><i class="fa fa-plus"></i></button>
+             </div> 
+             <a href="#" class="btn btn-dark mt-2 me-2" id="addcart"><i class="fa-solid fa-shopping-cart"></i>  Add to Cart</a> 
+             {% else %}
+             <a href="#" class="btn btn-secondary mt-2 me-2"> Out of Stock</a> 
+             {% endif %}
+             
+             
+             
+          
+      
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded",function(event){
+
+      const plus = document.getElementById('plus');
+      const minus = document.getElementById('minus');
+      const txtqty = document.getElementById('txtqty');
+      const pid = document.getElementById('pid');
+      const addcart = document.getElementById('addcart');
+      plus.addEventListener("click",function(){
+        let qty=parseInt(txtqty.value,10);
+        qty=isNaN(qty)?0:qty;
+        if(qty<10){
+          qty++;
+          txtqty.value=qty;
+        }
+      });
+      minus.addEventListener("click",function(){
+        let qty=parseInt(txtqty.value,10);
+        qty=isNaN(qty)?0:qty;
+        if(qty>1){
+          qty--;
+          txtqty.value=qty;
+        }
+      });
+      addcart.addEventListener("click",function(){
+        let qty=parseInt(txtqty.value,10);
+        qty=isNaN(qty)?0:qty;
+        if(qty>0){
+          let  postobj ={
+            product_qty:qty,
+            pid:pid.value,
+         
+          }
+          //console.log(postobj)
+          fetch("/addcart" ,{
+            method:"POST",
+            credentials:'same-origin',
+            headers:{
+              'Accept':'application/json',
+              'X-Requested-With':'XMLHttpRequest',
+              'X-CSRFToken':'{{csrf_token}}'
+          },
+          body:JSON.stringify(postobj)
+          
+        }).then(response=>{
+          return response.json();
+        }).then(data=>{
+          alert(data['status']);
+        })
+        }else{
+          alert('please enter quantity')
+        }
+      });
+  })
+  </script>  
+{% endblock content %}

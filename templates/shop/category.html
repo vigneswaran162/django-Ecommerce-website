@@ -1,0 +1,33 @@
+{% extends 'shop/layout.html' %}
+{% load static %}
+{% block title %}
+ ORGANIC | CATEGORY
+{% endblock title %}
+{% block content %}
+{% include 'inc/navbar.html' %}
+<div class="container box">
+
+    <div class="row d-flex align-items-center justify-content-center"> 
+     
+        {% for c in cat  %}
+
+        <div class="col-3 m-2 card  p-1">
+         <a href="{% url 'category' c.name %} ">
+            {% if c.image %}
+            <img src="{{c.image.url}}" class="img-fluid">
+            {% endif %}
+            <h5 class="mt-2">{{c.name}}</h5>
+            <p class="text-dark">{{c.description}}</p>
+         </a>   
+        </div>
+
+        {% endfor %}
+      
+    </div>
+  </div>
+
+  {% include 'inc/footer.html' %}
+{% endblock content %}
+{% block scripts %}
+
+{% endblock scripts %}
